@@ -1,13 +1,15 @@
-#include<iostream>
+ream>
 #include<ctime>
 #include<stdlib.h>
 #include<string>
 #include<graphics.h>
 #include<conio.h>
+#include<Windows.h>
 
 #include"Block.h"
 #include"Game.h"
 #include"Map.h"
+#include"Game.h"
 
 #define Width 1180
 #define Hight 600
@@ -16,15 +18,36 @@
 #define LEN 18
 using namespace std;
 
+
 Map P1_map(200, 0), P2_map(650, 0);   //两玩家的地图
 
 void initial();     //初始画面
 void textstyle();   //设置文字
+void update_with_input();   //有输入的更新
+void update_without_input();    //无输入的更新
 
 int main()
 {
     initial();
 
+    double y = 0;
+    BeginBatchDraw();
+
+    while (1) {
+        Block A;
+        A.InitialBlock();
+        A.Move();
+        A.DrawBlock(200);
+
+        FlushBatchDraw();
+        Sleep(8);
+
+        A.clearBlock(200);
+        update_with_input();
+
+
+    }
+    EndBatchDraw();
     getch();
     closegraph();
     return 0;
@@ -54,7 +77,7 @@ void textstyle() {
     outtextxy(60, 20, "玩家A");
     outtextxy(1030, 20, "玩家B");
     outtextxy(210, 530, "空格 : 开始/暂停");
-    outtextxy(720, 530, "ESC : 退出");
+    outtextxy(730, 530, "ESC : 退出");
 
     settextstyle(18, 0, _T("抗锯齿效果"));
     outtextxy(20, 65, "下一块:");
@@ -69,4 +92,15 @@ void textstyle() {
     outtextxy(990, 350, "↓ : 加速");
     outtextxy(990, 400, "← : 左移");
     outtextxy(990, 450, "→ : 右移");
+}
+
+void update_with_input() {
+    char input;
+    if (kbhit()) {      // 暂停or开始
+        input = getch();
+        if (input == ' ') {
+            Game::isStop = true;
+            Game::GameStop();
+        }
+    }
 }
