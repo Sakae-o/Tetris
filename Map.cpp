@@ -23,6 +23,7 @@ Map::Map(int xx, int yy) {
 	for (int i = 1; i < MAXX - 1; i++) {
 		map[MAXY - 1][i] = 1;
 	}
+
 }
 
 void Map::DrawMap() {
@@ -37,3 +38,4 @@ void Map::DrawMap() {
 		}
 	}
 }
+
