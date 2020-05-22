@@ -1,4 +1,4 @@
-ream>
+#include<iostream>
 #include<ctime>
 #include<stdlib.h>
 #include<string>
@@ -34,9 +34,9 @@ int main()
     BeginBatchDraw();
 
     while (1) {
-        Block A;
+        Block A,B;
         A.InitialBlock();
-        A.Move();
+
         A.DrawBlock(200);
 
         FlushBatchDraw();
@@ -103,4 +103,5 @@ void update_with_input() {
             Game::GameStop();
         }
     }
+
 }
