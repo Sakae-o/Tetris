@@ -23,9 +23,10 @@ public:
 private:
 	int shape[4][4];
 	int x, y;		//这里的x，y表示中心的地图坐标
-	int red, green, blue;	//颜色数据
+	float H,S,V;	//颜色数据
 
 	int type;	//方块种类
 	int state;	//方块当前的旋转方向
 };
+
 
