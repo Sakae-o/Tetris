@@ -1,3 +1,7 @@
+#pragma once
+
+#include"Block.h"
+
 const int MAXY = 24;
 const int MAXX = 15;
 
@@ -12,7 +16,6 @@ public:
 	void Add_line();	//同时对方加一行
 
 
-private:
 	int map[MAXY][MAXX];	//地图数据
-	int x, y;		//左上角的坐标
+	int x, y;		//左上角的像素坐标
 };
