@@ -1,5 +1,6 @@
 #pragma once
-
+#include"Map.h"
+class Map;
 
 class Block {
 public:
@@ -8,11 +9,11 @@ public:
 	void clearBlock(int max_p);		//消除方块
 	void DrewNext();		//在游戏区域旁打印下一个方块
 
-	bool JudgeLeft();		//分别判断是否可以左移，右移，下落
-	bool JudgeRight();
-	bool JudgeDown();
+	bool JudgeLeft(Map A);		//分别判断是否可以左移，右移，下落
+	bool JudgeRight(Map A);
+	bool JudgeDown(Map A);
 
-	bool JudgeTransform();	//判断是否可以变形
+	bool JudgeTransform(Map A);	//判断是否可以变形
 
 	void Move();		//执行移动，变形，消行
 	void Transform();
@@ -28,5 +29,7 @@ private:
 	int type;	//方块种类
 	int state;	//方块当前的旋转方向
 };
+
+
 
 
