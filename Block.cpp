@@ -6,6 +6,7 @@
 #include<conio.h>
 
 #include"Block.h"
+#include"Map.h"
 
 #define Width 1180
 #define Hight 600
@@ -107,4 +108,3 @@ void Block::clearBlock(int map_x) {
 		}
 	}
 }
-
