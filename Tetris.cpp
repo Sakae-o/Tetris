@@ -18,7 +18,9 @@
 #define LEN 18
 using namespace std;
 
+int down = 0;       //控制自动下落的时间间隔
 
+Block A, B;
 Map P1_map(200, 0), P2_map(650, 0);   //两玩家的地图
 
 void initial();     //初始画面
@@ -28,25 +30,54 @@ void update_without_input();    //无输入的更新
 
 int main()
 {
+    srand(time(0));
+
+initial:
     initial();
 
     double y = 0;
     BeginBatchDraw();
 
-    while (1) {
-        Block A,B;
-        A.InitialBlock();
+    Block Next1, Next2;
+    Next1.InitialBlock();
+    Next2.InitialBlock();
 
-        A.DrawBlock(200);
+    A.InitialBlock();
+
+    while (1) {
+
+        update_with_input();
+        update_without_input();
+
+        if (!A.JudgeDown(P1_map)) {
+            A.down_control++;
+            if (A.down_control == 7) {
+                A.down_control = 0;
+                fuse(P1_map, A);
+
+                P2_map.Add_update(P1_map.Clear_update());
+
+                A = Next1;
+                Next1.InitialBlock();
+            }
+        }
+        else {
+            A.down_control = 0;
+        }
+
+
+        Next1.DrewNext(50,120);
+        Next2.DrewNext(1050, 120);
+
+
+        Sleep(120);
 
         FlushBatchDraw();
-        Sleep(8);
 
-        A.clearBlock(200);
-        update_with_input();
-
-
+        A.clearNext(50, 120);
     }
+
+end:
     EndBatchDraw();
     getch();
     closegraph();
@@ -95,13 +126,28 @@ void textstyle() {
 }
 
 void update_with_input() {
-    char input;
-    if (kbhit()) {      // 暂停or开始
-        input = getch();
-        if (input == ' ') {
-            Game::isStop = true;
-            Game::GameStop();
-        }
+    A.Move_Transform(P1_map,1);
+    Game::GameStop();
+}
+
+void update_without_input() {
+    if (down == 0) {
+        A.Down(P1_map);
+    }
+    down++;
+    if (down > 8) {
+        down = 0;
     }
 
+    
+}
+
+void fuse(Map &M, Block &A) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (A.shape[i][j] == 1) {
+                M.map[A.y + i][A.x + j] = 1;
+            }
+        }
+    }
 }
