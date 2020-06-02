@@ -20,8 +20,8 @@ using namespace std;
 
 int down = 0;       //控制自动下落的时间间隔
 
-Block A, B;
 Map P1_map(200, 0), P2_map(650, 0);   //两玩家的地图
+Block P1_Block, P2_Block, P1_Next, P2_Next;
 
 void initial();     //初始画面
 void textstyle();   //设置文字
@@ -32,49 +32,26 @@ int main()
 {
     srand(time(0));
 
-initial:
+    /*负责介绍规则和操作，选择开始或退出*/
+
+begin:
     initial();
-
-    double y = 0;
     BeginBatchDraw();
-
-    Block Next1, Next2;
-    Next1.InitialBlock();
-    Next2.InitialBlock();
-
-    A.InitialBlock();
 
     while (1) {
 
         update_with_input();
         update_without_input();
-
-        if (!A.JudgeDown(P1_map)) {
-            A.down_control++;
-            if (A.down_control == 7) {
-                A.down_control = 0;
-                fuse(P1_map, A);
-
-                P2_map.Add_update(P1_map.Clear_update());
-
-                A = Next1;
-                Next1.InitialBlock();
-            }
+        if (!P1_map.getTop() || !P2_map.getTop()) {
+            /*显示胜方，选择重来或退出*/
         }
-        else {
-            A.down_control = 0;
-        }
-
-
-        Next1.DrewNext(50,120);
-        Next2.DrewNext(1050, 120);
-
 
         Sleep(120);
 
         FlushBatchDraw();
 
-        A.clearNext(50, 120);
+        P1_Next.clearNext(50, 120);
+        P2_Next.clearNext(1050, 120);
     }
 
 end:
@@ -92,6 +69,12 @@ void initial() {
 
     P1_map.DrawMap();       //绘制初始地图
     P2_map.DrawMap();
+
+
+    P1_Block.InitialBlock();    //初始化双方的方块
+    P2_Block.InitialBlock();
+    P1_Next.InitialBlock();
+    P2_Next.InitialBlock();
 
     setcolor(WHITE);     //显示规则等
     setlinestyle(PS_SOLID, 4);
@@ -126,20 +109,45 @@ void textstyle() {
 }
 
 void update_with_input() {
-    A.Move_Transform(P1_map,1);
+    P1_Block.Move_Transform(P1_map, 1);
+    P2_Block.Move_Transform(P2_map, 2);
     Game::GameStop();
 }
 
+void update_add_clear(Block& A, Block& B, Block& Next1, Block& Next2, Map& P1, Map& P2) {
+    if (!A.JudgeDown(P1)) {
+        A.down_control++;
+        if (A.down_control == 7) {
+            A.down_control = 0;
+            fuse(P1, A);
+
+            P2.Add_update(P1.Clear_update());
+            B.DrawBlock(P2.x);
+
+            A = Next1;
+            Next1.InitialBlock();
+        }
+    }
+    else {
+        A.down_control = 0;
+    }
+}
+
 void update_without_input() {
-    if (down == 0) {
-        A.Down(P1_map);
+    if (down == 0) {            //控制下落速度
+        P1_Block.Down(P1_map);
+        P2_Block.Down(P2_map);
     }
     down++;
     if (down > 8) {
         down = 0;
     }
 
-    
+    update_add_clear(P1_Block, P2_Block, P1_Next, P2_Next, P1_map, P2_map);
+    update_add_clear(P2_Block, P1_Block, P2_Next, P1_Next, P2_map, P1_map);
+
+    P1_Next.DrewNext(50, 120);
+    P2_Next.DrewNext(1050, 120);
 }
 
 void fuse(Map &M, Block &A) {
