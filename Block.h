@@ -1,4 +1,4 @@
-ragma once
+#pragma once
 
 #include"Map.h"
 #include"Block.h"
@@ -37,4 +37,5 @@ private:
 
 	int bottom;	//若y=0，该方块最底行所在的纵坐标值。此参数用来调整初始下落，确保方块在进入地图前不会被误判为无法下落
 };
+
 
