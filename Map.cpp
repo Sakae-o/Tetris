@@ -75,17 +75,20 @@ int Map::Clear_Line() {
 	return cnt;
 }
 
-void Map::Add_line(int cnt) {
-	int top;					//寻找当前最高层所在的y坐标top
+int Map::getTop() {
+	int top;					
 	for (top = 0; top < MAXY - 1; top++) {
 		for (int j = 1; j < MAXX - 1; j++) {
 			if (map[top][j] == 1) {
-				goto part2;
+				return top;
 			}
 		}
 	}
+}
 
-part2:
+void Map::Add_line(int cnt) {
+	int top = getTop();
+
 	while (cnt-- && top > 0) {
 		for (int i = top - 1; i < MAXY - 2; i++) {
 			for (int j = 1; j < MAXX - 1; j++) {
@@ -107,6 +110,13 @@ part2:
 		j++;
 
 	}
+}
+
+bool Map::judgeOver() {
+	if (getTop()) {
+		return true;
+	}
+	return false;
 }
 
 
