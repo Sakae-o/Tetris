@@ -131,5 +131,3 @@ void Map::Add_update(int cnt) {
 	Add_line(cnt);
 	DrawMap();
 }
-
-
