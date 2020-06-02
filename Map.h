@@ -21,9 +21,13 @@ public:
 	int Clear_update();		//消行后更新地图,返回的是消的行数
 	void Add_update(int cnt);			//增行后更新地图
 
+	int getTop();		//获取当前最顶行所在位置
+	bool judgeOver();	//判断游戏是否结束
+
 	friend void fuse(Map& M, Block& B);
 
 	int map[MAXY][MAXX];	//地图数据
 	int x, y;		//左上角的像素坐标
 };
+
 
