@@ -4,7 +4,7 @@
 #include<string>
 #include<graphics.h>
 #include<conio.h>
-#include<Windows.h>
+#include<windows.h>
 
 #include"Block.h"
 #include"Game.h"
@@ -28,11 +28,15 @@ void textstyle();   //设置文字
 void update_with_input();   //有输入的更新
 void update_without_input();    //无输入的更新
 
+
 int main()
 {
     srand(time(0));
+    initgraph(Width, Hight);    //设置背景
 
-    /*负责介绍规则和操作，选择开始或退出*/
+    if (!Game::Welcome()) {
+        goto end;
+    }
 
 begin:
     initial();
@@ -43,7 +47,13 @@ begin:
         update_with_input();
         update_without_input();
         if (!P1_map.getTop() || !P2_map.getTop()) {
-            /*显示胜方，选择重来或退出*/
+            if (!Game::GameOver(P1_map)) {
+                EndBatchDraw();
+                goto begin;
+            }
+            else {
+                goto end;
+            }
         }
 
         Sleep(120);
@@ -55,6 +65,9 @@ begin:
     }
 
 end:
+    settextcolor(WHITE);
+    settextstyle(100, 0, _T("黑体"));
+    outtextxy(500, 220, "Bye");
     EndBatchDraw();
     getch();
     closegraph();
@@ -62,11 +75,18 @@ end:
 }
 
 
-void initial() {
-    initgraph(Width, Hight);    //设置背景
+
+void Drawgraph() {
+    
     setbkcolor(BLACK);
     cleardevice();
+}
 
+void initial() {
+    Game::clearScreen();
+
+    P1_map = Map(200, 0);
+    P2_map = Map(650, 0);
     P1_map.DrawMap();       //绘制初始地图
     P2_map.DrawMap();
 
@@ -88,8 +108,8 @@ void initial() {
 void textstyle() {
     settextcolor(WHITE);
     settextstyle(30, 0, _T("黑体"));
-    outtextxy(60, 20, "玩家A");
-    outtextxy(1030, 20, "玩家B");
+    outtextxy(50, 20, "玩家P1");
+    outtextxy(1025, 20, "玩家P2");
     outtextxy(210, 530, "空格 : 开始/暂停");
     outtextxy(730, 530, "ESC : 退出");
 
