@@ -29,5 +29,3 @@ public:
 	int map[MAXY][MAXX];	//地图数据
 	int x, y;		//左上角的像素坐标
 };
-
-
