@@ -45,6 +45,7 @@ begin:
 
         update_with_input();
         update_without_input();
+
         if (!P1_map.getTop() || !P2_map.getTop()) {
             if (!Game::GameOver(P1_map)) {
                 EndBatchDraw();
@@ -55,8 +56,6 @@ begin:
             }
         }
 
-        Sleep(120);
-
         FlushBatchDraw();
 
         P1_Next.clearNext(50, 120);
@@ -64,13 +63,7 @@ begin:
     }
 
 end:
-    settextcolor(WHITE);
-    settextstyle(100, 0, _T("黑体"));
-    outtextxy(500, 220, "Bye");
-    EndBatchDraw();
-
-    Sleep(1000);
-    closegraph();
+    Game::EndGame();
     return 0;
 }
 
@@ -167,6 +160,8 @@ void update_without_input() {
 
     P1_Next.DrewNext(50, 120);
     P2_Next.DrewNext(1050, 120);
+
+    Sleep(120);
 }
 
 void fuse(Map &M, Block &A) {
