@@ -28,7 +28,6 @@ void textstyle();   //设置文字
 void update_with_input();   //有输入的更新
 void update_without_input();    //无输入的更新
 
-
 int main()
 {
     srand(time(0));
@@ -69,12 +68,11 @@ end:
     settextstyle(100, 0, _T("黑体"));
     outtextxy(500, 220, "Bye");
     EndBatchDraw();
-    getch();
+
+    Sleep(1000);
     closegraph();
     return 0;
 }
-
-
 
 void Drawgraph() {
     
@@ -132,6 +130,7 @@ void update_with_input() {
     P1_Block.Move_Transform(P1_map, 1);
     P2_Block.Move_Transform(P2_map, 2);
     Game::GameStop();
+    Game::CloseGame();
 }
 
 void update_add_clear(Block& A, Block& B, Block& Next1, Block& Next2, Map& P1, Map& P2) {
