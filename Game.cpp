@@ -98,3 +98,13 @@ void Game::CloseGame() {
 		exit(0);
 	}
 }
+
+void Game::EndGame() {
+	settextcolor(WHITE);
+	settextstyle(100, 0, _T("黑体"));
+	outtextxy(500, 220, "Bye");
+	EndBatchDraw();
+
+	Sleep(1000);
+	closegraph();
+}
