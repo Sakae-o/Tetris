@@ -1,6 +1,5 @@
 #pragma once
 #include"Map.h"
-#include<string>
 
 class Game {
 public:
@@ -8,4 +7,5 @@ public:
 	static bool GameOver(Map P1_map);	//显示胜方，选择重来或退出
 	static void GameStop();	//暂停游戏
 	static void clearScreen(); //屏幕清为全黑
+	static void CloseGame();  //游戏中途退出
 };
