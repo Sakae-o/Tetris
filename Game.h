@@ -8,4 +8,5 @@ public:
 	static void GameStop();	//暂停游戏
 	static void clearScreen(); //屏幕清为全黑
 	static void CloseGame();  //游戏中途退出
+	static void EndGame();		//游戏结束，弹出告别界面并自动退出
 };
