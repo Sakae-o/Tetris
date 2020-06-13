@@ -92,3 +92,9 @@ void Game::clearScreen() {
 	setbkcolor(BLACK);
 	cleardevice();
 }
+
+void Game::CloseGame() {
+	if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000)) {
+		exit(0);
+	}
+}
